@@ -1,1 +1,18 @@
+name: build&test
 
+on: [push]
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: python3 -m pip install --user poetry
+    - run: make install
+    - run: make lint
+    - run: make test
+    - name: Test & publish code coverage
+      uses: paambaati/codeclimate-action@v2.7.4
+      env:
+        CC_TEST_REPORTER_ID: a15080ab3c43026a90c3461463c0c05251f52919e054fb4e6e4e819a9092e286
+      with:
+        coverageCommand: make test-coverage
