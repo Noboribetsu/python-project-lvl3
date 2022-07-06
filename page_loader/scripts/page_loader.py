@@ -2,6 +2,7 @@
 
 from page_loader.main import page_loader
 
+
 def main():
     page_loader()
 
