@@ -28,7 +28,7 @@ def download(link, path):
         file_path = os.path.join(path, get_file_name(link))
         with open(file_path, 'w') as f:
             f.write(r.text)
-        return file_path
+        return os.path.abspath(file_path)
     else:
         raise NameError('A directory do no exist!')
 
