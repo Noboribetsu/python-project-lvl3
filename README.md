@@ -7,3 +7,6 @@
 
 ### GitHub actions:
 [![build&test](https://github.com/Noboribetsu/python-project-lvl3/actions/workflows/build&test.yml/badge.svg)](https://github.com/Noboribetsu/python-project-lvl3/actions/workflows/build&test.yml)
+
+### Step 1(page-loader):
+[![asciicast](https://asciinema.org/a/oSTkLoOrnafURZSjNfDZRih60.svg)](https://asciinema.org/a/oSTkLoOrnafURZSjNfDZRih60)
