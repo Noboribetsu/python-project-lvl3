@@ -14,7 +14,7 @@ test:
 	poetry run pytest
 
 test-coverage:
-	poetry run pytest --cov= --cov-report xml
+	poetry run pytest --cov=page_loader --cov-report xml
 
 package-uninstall:
 	python3 -m pip uninstall  dist/*.whl
