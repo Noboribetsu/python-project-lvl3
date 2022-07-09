@@ -11,5 +11,5 @@
 ### Step 1(page-loader):
 [![asciicast](https://asciinema.org/a/oSTkLoOrnafURZSjNfDZRih60.svg)](https://asciinema.org/a/oSTkLoOrnafURZSjNfDZRih60)
 
-### Step 2(page's file download: img):
+### Step 2(page's files download: img):
 [![asciicast](https://asciinema.org/a/Jc4NHeld7egGfIwOC24jpZkws.svg)](https://asciinema.org/a/Jc4NHeld7egGfIwOC24jpZkws)
