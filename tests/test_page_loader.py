@@ -1,21 +1,19 @@
 import tempfile
 import os
-
 from page_loader import download
-
 
 links = [
     'https://ru.hexlet.io/courses',
-    '/assets/professions/nodejs.png',
-    '/assets/professions/pic1.png',
-    'https://ru.hexlet.io/courses/assets/professions/pic2.jpg',
+    'https://ru.hexlet.io/assets/professions/nodejs.png',
+    'https://ru.hexlet.io/assets/professions/pic1.png',
+    'https://ru.hexlet.io/assets/professions/pic2.jpg',
 ]
 dir_name = 'ru-hexlet-io-courses_files'
 filenames = [
     'ru-hexlet-io-courses.html',
-    'ru-hexlet-io-courses-assets-professions-nodejs.png',
-    'ru-hexlet-io-courses-assets-professions-pic1.png',
-    'ru-hexlet-io-courses-assets-professions-pic2.jpg',
+    'ru-hexlet-io-assets-professions-nodejs.png',
+    'ru-hexlet-io-assets-professions-pic1.png',
+    'ru-hexlet-io-assets-professions-pic2.jpg',
 ]
 
 
@@ -32,6 +30,9 @@ def read(path):
 def test_page_loader_path(requests_mock):
     data = read(get_file_path('test1.html'))
     requests_mock.get(links[0], text=data)
+    requests_mock.get(links[1], text='nodejs.png')
+    requests_mock.get(links[2], text='pic1.png')
+    requests_mock.get(links[3], text='pic2.jpg')
     with tempfile.TemporaryDirectory() as tmpdir:
         expected_path = os.path.join(tmpdir, filenames[0])
         expected_dir_path = os.path.join(tmpdir, dir_name)
@@ -43,9 +44,9 @@ def test_page_loader_path(requests_mock):
 def test_page_loader_files(requests_mock):
     data = read(get_file_path('test1.html'))
     requests_mock.get(links[0], text=data)
-    requests_mock.get(''.join((links[0], links[1])), text='nodejs.png')
-    requests_mock.get(''.join((links[0], links[2])), text='pic1.png')
-    requests_mock.get(''.join(links[3]), text='pic2.jpg')
+    requests_mock.get(links[1], text='nodejs.png')
+    requests_mock.get(links[2], text='pic1.png')
+    requests_mock.get(links[3], text='pic2.jpg')
     with tempfile.TemporaryDirectory() as tmpdir:
         dir_path = os.path.join(tmpdir, dir_name)
         actual_path = download(links[0], tmpdir)

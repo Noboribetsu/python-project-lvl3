@@ -1,18 +1,8 @@
 import argparse
 import requests
 import os
-from urllib.parse import urlparse
-
-
-def get_file_name(link):
-    """ Make a file name from a link"""
-    file_name = []
-    url = urlparse(link)
-    file_name.append(url.netloc.replace('.', '-'))
-    file_name.append(url.path.replace('/', '-'))
-    if not url.path.endswith('.html'):
-        file_name.append('.html')
-    return ''.join(file_name)
+from bs4 import BeautifulSoup
+from page_loader.functions import GetPageNames, save
 
 
 def download(link, path):
@@ -21,14 +11,18 @@ def download(link, path):
         save it to an existing directory.
     """
     if os.path.exists(path):
-        try:
-            r = requests.get(link)
-        except requests.RequestException as error:
-            print('Requests error:', error)
-        file_path = os.path.join(path, get_file_name(link))
-        with open(file_path, 'w') as f:
-            f.write(r.text)
-        return os.path.abspath(file_path)
+        page = GetPageNames(link, path)
+        page_data = requests.get(link)
+        html = BeautifulSoup(page_data.text, 'html.parser')
+        os.mkdir(page.get_dir_path())
+        for img_link in html.find_all('img'):
+            if page.ispagelink(img_link.get('src')):
+                img_url, img_name = page.get_page_src(img_link.get('src'))
+                img = requests.get(img_url)
+                save(os.path.join(page.get_dir_path(), img_name), img.text)
+                img_link['src'] = os.path.join(page.get_dir_name(), img_name)
+        save(page.get_path(), html.prettify())
+        return page.get_path()
     else:
         raise NameError('A directory do no exist!')
 
