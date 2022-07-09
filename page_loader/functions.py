@@ -13,7 +13,7 @@ class GetPageNames():
         self.scheme = url.scheme
         self.netloc = url.netloc
         name.append(url.netloc.replace('.', '-'))
-        name.append(url.path.replace('/', '-'))
+        name.append(url.path.replace('/', '-') if len(url.path) > 1 else '')
         name.append('_files')
         self.dir_name = ''.join(name)
         name.pop()
