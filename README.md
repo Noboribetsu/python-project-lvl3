@@ -13,3 +13,6 @@
 
 ### Step 2(page's files download: img):
 [![asciicast](https://asciinema.org/a/Jc4NHeld7egGfIwOC24jpZkws.svg)](https://asciinema.org/a/Jc4NHeld7egGfIwOC24jpZkws)
+
+### Step 3(+ links, scripts):
+[![asciicast](https://asciinema.org/a/UMof37S2wnGPakYKGksXlPJUp.svg)](https://asciinema.org/a/UMof37S2wnGPakYKGksXlPJUp)
