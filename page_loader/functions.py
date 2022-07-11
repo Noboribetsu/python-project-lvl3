@@ -1,6 +1,8 @@
 import os
 from urllib.parse import urlparse
 
+import requests
+
 
 class GetPageNames():
     """
@@ -37,15 +39,14 @@ class GetPageNames():
         return self.dir_name
 
     def ispagelink(self, link):
-        if link:
-            url = urlparse(link)
-            if url.netloc:
-                if url.netloc != self.netloc:
-                    return False
-            return True
-        return False
+        url = urlparse(link)
+        if url.netloc:
+            if url.netloc != self.netloc:
+                return False
+        return True
 
     def get_page_src(self, link):
+        suffix = ('.png', '.jpg', '.js', '.css')
         name = []
         url = urlparse(link)
         url = url._replace(
@@ -54,9 +55,21 @@ class GetPageNames():
         )
         name.append(url.netloc.replace('.', '-'))
         name.append(url.path.replace('/', '-'))
-        return url.geturl(), ''.join(name)
+        if url.path.endswith(suffix):
+            return url.geturl(), ''.join(name)
+        else:
+            name.append('.html')
+            return url.geturl(), ''.join(name)
 
 
 def save(path, data):
     with open(path, 'w') as f:
         f.write(data)
+
+
+def save_page_src(data, page, attr):
+    if page.ispagelink(data.get(attr)):
+        src_url, src_name = page.get_page_src(data.get(attr))
+        src = requests.get(src_url)
+        save(os.path.join(page.get_dir_path(), src_name), src.text)
+        data[attr] = os.path.join(page.get_dir_name(), src_name)

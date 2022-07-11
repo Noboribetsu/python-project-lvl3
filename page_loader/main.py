@@ -2,7 +2,8 @@ import argparse
 import requests
 import os
 from bs4 import BeautifulSoup
-from page_loader.functions import GetPageNames, save
+from page_loader.functions import GetPageNames, save, save_page_src
+import re
 
 
 def download(link, path):
@@ -15,12 +16,14 @@ def download(link, path):
         page_data = requests.get(link)
         html = BeautifulSoup(page_data.text, 'html.parser')
         os.mkdir(page.get_dir_path())
-        for img_link in html.find_all('img'):
-            if page.ispagelink(img_link.get('src')):
-                img_url, img_name = page.get_page_src(img_link.get('src'))
-                img = requests.get(img_url)
-                save(os.path.join(page.get_dir_path(), img_name), img.text)
-                img_link['src'] = os.path.join(page.get_dir_name(), img_name)
+        list(map(
+            lambda x: save_page_src(x, page, 'href'),
+            html.find_all('link', {'href': re.compile('.*')})
+        ))
+        list(map(
+            lambda x: save_page_src(x, page, 'src'),
+            html.find_all(['img', 'script'], attrs={'src': re.compile('.*')})
+        ))
         save(page.get_path(), html.prettify())
         return page.get_path()
     else:
