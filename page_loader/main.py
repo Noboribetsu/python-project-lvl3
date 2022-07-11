@@ -16,11 +16,11 @@ def download(link, path):
         page_data = requests.get(link)
         html = BeautifulSoup(page_data.text, 'html.parser')
         os.mkdir(page.get_dir_path())
-        list(map(
+        any(map(
             lambda x: save_page_src(x, page, 'href'),
             html.find_all('link', {'href': re.compile('.*')})
         ))
-        list(map(
+        any(map(
             lambda x: save_page_src(x, page, 'src'),
             html.find_all(['img', 'script'], attrs={'src': re.compile('.*')})
         ))
