@@ -67,6 +67,7 @@ def save(path, data):
 
 
 def save_page_src(data, page, attr):
+    """Download all local page's sources."""
     if page.ispagelink(data.get(attr)):
         src_url, src_name = page.get_page_src(data.get(attr))
         src = requests.get(src_url)

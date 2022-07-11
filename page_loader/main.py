@@ -8,7 +8,7 @@ import re
 
 def download(link, path):
     """
-        Downdload a web-site page by a link and
+        Downdload a web-site page by a link witl all loacal sources and
         save it to an existing directory.
     """
     if os.path.exists(path):
