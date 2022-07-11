@@ -45,7 +45,8 @@ class GetPageNames():
         return True
 
     def get_page_src(self, link):
-        suffix = ('.png', '.jpg', '.js', '.css')
+        suffix = ('.png', '.jpg',
+                  '.js', '.css', '.ico', '.txt')
         name = []
         url = urlparse(link)
         url = url._replace(
