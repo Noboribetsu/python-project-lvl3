@@ -2,6 +2,7 @@ import logging
 import os
 from urllib.parse import urlparse
 import requests
+from progress.spinner import Spinner
 
 
 class GetPageNames():
@@ -68,20 +69,24 @@ def save(path, data):
         f.write(data)
 
 
-def save_page_src(data, page, attr):
+def save_page_src(links, page, attr):
     """Download all local page's sources."""
-    if page.ispagelink(data.get(attr)):
-        src_url, src_name = page.get_page_src(data.get(attr))
-        logging.info('Dowload a page\'s file: %s', src_url)
-        try:
-            src = requests.get(src_url)
-            src.raise_for_status()
-            logging.info(
-                'Save a page\'s file: %s in directory: %s',
-                src_name, page.get_dir_name()
-            )
-            save(os.path.join(page.get_dir_path(), src_name), src.text)
-            data[attr] = os.path.join(page.get_dir_name(), src_name)
-        except requests.RequestException as e:
-            logging.warning(
+    msg = f'Download page\'s "{attr}":'
+    spinner = Spinner(msg)
+    state = ''
+    while state != 'FINISHED':
+        for data in links:
+            if page.ispagelink(data.get(attr)):
+                src_url, src_name = page.get_page_src(data.get(attr))
+                try:
+                    src = requests.get(src_url)
+                    src.raise_for_status()
+                    save(os.path.join(page.get_dir_path(), src_name), src.text)
+                    data[attr] = os.path.join(page.get_dir_name(), src_name)
+                    spinner.next()
+                except requests.RequestException as e:
+                    spinner.finish()
+                    logging.warning(
                 'Cannot get page\'s source: %s due to %s', src_url, e)
+        spinner.finish()
+        state = 'FINISHED'

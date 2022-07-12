@@ -3,9 +3,9 @@ import sys
 import requests
 import logging
 import os
+import re
 from bs4 import BeautifulSoup
 from page_loader.functions import GetPageNames, save, save_page_src
-import re
 
 
 def download(link, path):
@@ -29,7 +29,7 @@ def download(link, path):
         err_msg = f'Output directory "{os.path.abspath(path)}" do not exist.'
         logging.error(err_msg)
         raise OSError(2, err_msg)
-    logging.info('Dowload a page: %s', link)
+    logging.info('Download a page: %s', link)
     try:
         page_data = requests.get(link)
         page_data.raise_for_status()
@@ -40,15 +40,12 @@ def download(link, path):
         os.rmdir(page.get_dir_path())
         raise ConnectionError(2, err_msg)
     html = BeautifulSoup(page_data.text, 'html.parser')
-    any(map(
-        lambda x: save_page_src(x, page, 'href'),
-        html.find_all('link', {'href': re.compile('.*')})
-    ))
-    any(map(
-        lambda x: save_page_src(x, page, 'src'),
-        html.find_all(['img', 'script'], attrs={'src': re.compile('.*')})
-    ))
-    logging.info('Save a page data: %s', page.page_name)
+    href_list = html.find_all('link', {'href': re.compile('.*')})
+    src_list = html.find_all(['img', 'script'], attrs={'src': re.compile('.*')})
+    logging.info('Start to dowload a page\'s source.')
+    save_page_src(href_list, page, 'href')
+    save_page_src(src_list, page, 'src')
+    logging.info('Save a page: %s', page.page_name)
     save(page.get_path(), html.prettify())
     return page.get_path()
 
@@ -74,4 +71,4 @@ def page_loader():
         file_path = download(args.link, args.path)
     except IOError as e:
         sys.exit(e.errno)
-    print(file_path)
+    logging.info("Page path: %s", file_path)
