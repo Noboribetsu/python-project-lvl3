@@ -22,3 +22,6 @@
 
 ### Step 5(add exceptions):
 [![asciicast](https://asciinema.org/a/oAG8HnfbTtWLSLCrpZZqI26uQ.svg)](https://asciinema.org/a/oAG8HnfbTtWLSLCrpZZqI26uQ)
+
+### Step 6(add progression spinner):
+[![asciicast](https://asciinema.org/a/O8GPefWQnSwcdkKJSUS1MmkSp.svg)](https://asciinema.org/a/O8GPefWQnSwcdkKJSUS1MmkSp)
