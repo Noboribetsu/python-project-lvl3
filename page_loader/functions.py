@@ -87,6 +87,6 @@ def save_page_src(links, page, attr):
                 except requests.RequestException as e:
                     spinner.finish()
                     logging.warning(
-                'Cannot get page\'s source: %s due to %s', src_url, e)
+                        'Cannot get page\'s source: %s due to %s', src_url, e)
         spinner.finish()
         state = 'FINISHED'
