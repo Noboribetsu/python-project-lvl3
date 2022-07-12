@@ -71,4 +71,4 @@ def page_loader():
         file_path = download(args.link, args.path)
     except IOError as e:
         sys.exit(e.errno)
-    logging.info("Page path: %s", file_path)
+    print(file_path)
