@@ -59,7 +59,7 @@ def page_loader():
     )
     parser.add_argument('link', metavar='LINK',
                         type=str, help='a link on a page that should be loaded')
-    parser.add_argument('--output', metavar='PATH',
+    parser.add_argument('-o', '--output', metavar='PATH',
                         dest='path', default=os.getcwd(), type=str,
                         help='a directory path to save a page(should be exist) \
                         (default: CWD)')
@@ -67,6 +67,5 @@ def page_loader():
     try:
         file_path = download(args.link, args.path)
     except IOError as e:
-        logging.error(e.strerror)
         sys.exit(e.errno)
     print(file_path)
