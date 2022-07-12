@@ -21,6 +21,10 @@ def download(link, path):
             'Create directory for page\'s files: %s',
             page.get_dir_path()
         )
+    except FileExistsError:
+        err_msg = f'Directory "{page.get_dir_name()}" is already exist'
+        logging.error(err_msg)
+        raise FileExistsError(2, err_msg)
     except OSError:
         err_msg = f'Output directory "{os.path.abspath(path)}" do not exist.'
         logging.error(err_msg)
@@ -32,6 +36,8 @@ def download(link, path):
     except requests.RequestException as e:
         err_msg = f'Cannot get page: {link} due to {e}'
         logging.error(err_msg)
+        logging.info('Remove directory: %s', page.get_dir_name())
+        os.rmdir(page.get_dir_path())
         raise ConnectionError(2, err_msg)
     html = BeautifulSoup(page_data.text, 'html.parser')
     any(map(
