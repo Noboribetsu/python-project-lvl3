@@ -46,7 +46,7 @@ def download(link, path):
     save_page_src(href_list, page, 'href')
     save_page_src(src_list, page, 'src')
     logging.info('Save a page: %s', page.page_name)
-    save(page.get_path(), html.prettify())
+    save(page.get_path(), html.prettify(), 'w')
     return page.get_path()
 
 

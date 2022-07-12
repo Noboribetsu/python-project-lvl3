@@ -48,7 +48,7 @@ class GetPageNames():
 
     def get_page_src(self, link):
         suffix = ('.png', '.jpg',
-                  '.js', '.css', '.ico', '.txt')
+                  '.js', '.css', '.ico', '.txt', '.rss')
         name = []
         url = urlparse(link)
         url = url._replace(
@@ -64,8 +64,8 @@ class GetPageNames():
             return url.geturl(), ''.join(name)
 
 
-def save(path, data):
-    with open(path, 'w') as f:
+def save(path, data, type):
+    with open(path, type) as f:
         f.write(data)
 
 
@@ -81,7 +81,9 @@ def save_page_src(links, page, attr):
                 try:
                     src = requests.get(src_url)
                     src.raise_for_status()
-                    save(os.path.join(page.get_dir_path(), src_name), src.text)
+                    save(os.path.join(
+                        page.get_dir_path(), src_name), src.content, 'wb'
+                    )
                     data[attr] = os.path.join(page.get_dir_name(), src_name)
                     spinner.next()
                 except requests.RequestException as e:
