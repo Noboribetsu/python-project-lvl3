@@ -16,3 +16,7 @@
 
 ### Step 3(+ links, scripts):
 [![asciicast](https://asciinema.org/a/UMof37S2wnGPakYKGksXlPJUp.svg)](https://asciinema.org/a/UMof37S2wnGPakYKGksXlPJUp)
+
+### Step 4(add logging):
+[![asciicast](https://asciinema.org/a/xcqfUq0VbUT9uCcjf5YtLf8yz.svg)](https://asciinema.org/a/xcqfUq0VbUT9uCcjf5YtLf8yz)
+
