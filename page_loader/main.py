@@ -21,11 +21,18 @@ def download(link, path):
             'Create directory for page\'s files: %s',
             page.get_dir_path()
         )
-    except Exception:
-        print(f'Such directory "{path}" do not exist.')
-        sys.exit(1)
+    except OSError:
+        err_msg = f'Output directory "{os.path.abspath(path)}" do not exist.'
+        logging.error(err_msg)
+        raise OSError(2, err_msg)
     logging.info('Dowload a page: %s', link)
-    page_data = requests.get(link)
+    try:
+        page_data = requests.get(link)
+        page_data.raise_for_status()
+    except requests.RequestException as e:
+        err_msg = f'Cannot get page: {link} due to {e}'
+        logging.error(err_msg)
+        raise ConnectionError(2, err_msg)
     html = BeautifulSoup(page_data.text, 'html.parser')
     any(map(
         lambda x: save_page_src(x, page, 'href'),
@@ -57,5 +64,9 @@ def page_loader():
                         help='a directory path to save a page(should be exist) \
                         (default: CWD)')
     args = parser.parse_args()
-    file_path = download(args.link, args.path)
+    try:
+        file_path = download(args.link, args.path)
+    except IOError as e:
+        logging.error(e.strerror)
+        sys.exit(e.errno)
     print(file_path)

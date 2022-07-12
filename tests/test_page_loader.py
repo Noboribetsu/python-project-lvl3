@@ -1,5 +1,8 @@
 import tempfile
 import os
+
+import pytest
+import requests
 from page_loader import download
 
 links = [
@@ -25,6 +28,32 @@ def read(path):
     with open(path) as f:
         data = f.read()
     return data
+
+
+def test_output_exception():
+    with pytest.raises(OSError):
+        download(links[0], 'path/to/dir')
+
+
+def test_connection_exception():
+    wrong_link = 'https://i.am.wrong.link/courses'
+    with pytest.raises(IOError):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            download(wrong_link, tmpdir)
+
+
+def test_src_exception(requests_mock):
+    data = read(get_file_path('test1.html'))
+    requests_mock.get(links[0], text=data)
+    requests_mock.get(links[1], text='Not found', status_code=404)
+    requests_mock.get(links[2], text='pic1.png')
+    requests_mock.get(
+        links[3], exc=requests.exceptions.ConnectionError('Error')
+    )
+    with tempfile.TemporaryDirectory() as tmpdir:
+        download(links[0], tmpdir)
+        dir_path = os.path.join(tmpdir, dir_name)
+        assert len(os.listdir(dir_path)) == 2
 
 
 def test_page_loader(requests_mock):
