@@ -20,3 +20,5 @@
 ### Step 4(add logging):
 [![asciicast](https://asciinema.org/a/xcqfUq0VbUT9uCcjf5YtLf8yz.svg)](https://asciinema.org/a/xcqfUq0VbUT9uCcjf5YtLf8yz)
 
+### Step 5(add exceptions):
+[![asciicast](https://asciinema.org/a/oAG8HnfbTtWLSLCrpZZqI26uQ.svg)](https://asciinema.org/a/oAG8HnfbTtWLSLCrpZZqI26uQ)
