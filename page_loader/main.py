@@ -1,5 +1,7 @@
 import argparse
+import sys
 import requests
+import logging
 import os
 from bs4 import BeautifulSoup
 from page_loader.functions import GetPageNames, save, save_page_src
@@ -11,23 +13,31 @@ def download(link, path):
         Downdload a web-site page by a link witl all loacal sources and
         save it to an existing directory.
     """
-    if os.path.exists(path):
-        page = GetPageNames(link, path)
-        page_data = requests.get(link)
-        html = BeautifulSoup(page_data.text, 'html.parser')
+    page = GetPageNames(link, path)
+    try:
         os.mkdir(page.get_dir_path())
-        any(map(
-            lambda x: save_page_src(x, page, 'href'),
-            html.find_all('link', {'href': re.compile('.*')})
-        ))
-        any(map(
-            lambda x: save_page_src(x, page, 'src'),
-            html.find_all(['img', 'script'], attrs={'src': re.compile('.*')})
-        ))
-        save(page.get_path(), html.prettify())
-        return page.get_path()
-    else:
-        raise NameError('A directory do no exist!')
+        logging.basicConfig(level=logging.INFO)
+        logging.info(
+            'Create directory for page\'s files: %s',
+            page.get_dir_path()
+        )
+    except Exception:
+        print(f'Such directory "{path}" do not exist.')
+        sys.exit(1)
+    logging.info('Dowload a page: %s', link)
+    page_data = requests.get(link)
+    html = BeautifulSoup(page_data.text, 'html.parser')
+    any(map(
+        lambda x: save_page_src(x, page, 'href'),
+        html.find_all('link', {'href': re.compile('.*')})
+    ))
+    any(map(
+        lambda x: save_page_src(x, page, 'src'),
+        html.find_all(['img', 'script'], attrs={'src': re.compile('.*')})
+    ))
+    logging.info('Save a page data: %s', page.page_name)
+    save(page.get_path(), html.prettify())
+    return page.get_path()
 
 
 def page_loader():

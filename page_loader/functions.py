@@ -1,3 +1,4 @@
+import logging
 import os
 from urllib.parse import urlparse
 import requests
@@ -71,6 +72,11 @@ def save_page_src(data, page, attr):
     """Download all local page's sources."""
     if page.ispagelink(data.get(attr)):
         src_url, src_name = page.get_page_src(data.get(attr))
+        logging.info('Dowload a page\'s file: %s', src_url)
         src = requests.get(src_url)
+        logging.info(
+            'Save a page\'s file: %s in directory: %s',
+            src_name, page.get_dir_name()
+        )
         save(os.path.join(page.get_dir_path(), src_name), src.text)
         data[attr] = os.path.join(page.get_dir_name(), src_name)
