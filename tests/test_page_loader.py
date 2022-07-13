@@ -66,11 +66,11 @@ def test_page_loader(requests_mock):
         expected_path = os.path.join(tmpdir, filenames[0])
         dir_path = os.path.join(tmpdir, dir_name)
         actual_path = download(links[0], tmpdir)
-        actual_data = read(actual_path)
-        expected_data = read(get_file_path('result.html'))
-        file1 = read(os.path.join(dir_path, filenames[1]))
         assert expected_path == actual_path
         assert os.path.exists(dir_path)
+        actual_data = read(actual_path)
+        expected_data = read(get_file_path('result.html'))
         assert actual_data == expected_data
+        file1 = read(os.path.join(dir_path, filenames[1]))
         assert file1 == 'pic1.png'
         assert len(os.listdir(dir_path)) == 4

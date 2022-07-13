@@ -39,7 +39,7 @@ def download(link, path):
         logging.info('Remove directory: %s', page.get_dir_name())
         os.rmdir(page.get_dir_path())
         raise ConnectionError(2, err_msg)
-    html = BeautifulSoup(page_data.text, 'html.parser')
+    html = BeautifulSoup(page_data.content, 'html.parser')
     href_list = html.find_all('link', {'href': re.compile('.*')})
     src_list = html.find_all(['img', 'script'], attrs={'src': re.compile('.*')})
     logging.info('Start to dowload a page\'s source.')
