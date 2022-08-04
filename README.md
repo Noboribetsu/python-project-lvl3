@@ -1,3 +1,34 @@
+### Description:
+Download a page by a link with all local sources and save it to an existing directory. 
+CLI script and lib function avaliable.
+
+### Requrements:
+* Python 3.8+
+* Poetry
+* GNU Make
+
+### Usage:
+
+### Install:
+```bash
+make install
+make build
+make package-install
+```
+
+## Check codestyle
+```bash
+make lint
+```
+
+## Run tests
+```bash
+make test
+make test-coverage
+```
+
+
+
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/Noboribetsu/python-project-lvl3/workflows/hexlet-check/badge.svg)](https://github.com/Noboribetsu/python-project-lvl3/actions)
 
