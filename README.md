@@ -1,4 +1,4 @@
-### Description:
+## Description:
 page-loader – утилита командной строки, которая скачивает страницы из интернета и сохраняет их на компьютере. Вместе со страницей она скачивает все ресурсы (картинки, стили и js) давая возможность открывать страницу без интернета.
 
 ### Requrements:
@@ -29,12 +29,12 @@ make build
 make package-install
 ```
 
-## Check codestyle
+### Check codestyle
 ```bash
 make lint
 ```
 
-## Run tests
+### Run tests
 ```bash
 make test
 make test-coverage
