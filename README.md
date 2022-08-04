@@ -1,6 +1,5 @@
 ### Description:
-Download a page by a link with all local sources and save it to an existing directory. 
-CLI script and lib function avaliable.
+page-loader – утилита командной строки, которая скачивает страницы из интернета и сохраняет их на компьютере. Вместе со страницей она скачивает все ресурсы (картинки, стили и js) давая возможность открывать страницу без интернета.
 
 ### Requrements:
 * Python 3.8+
@@ -8,6 +7,20 @@ CLI script and lib function avaliable.
 * GNU Make
 
 ### Usage:
+```bash
+page-loader -h
+usage: page-loader [-h] [-o PATH] LINK
+
+Download a page by a web-site link and save it to a mentioned directory.
+
+positional arguments:
+  LINK                  a link on a page that should be loaded
+
+options:
+  -h, --help            show this help message and exit
+  -o PATH, --output PATH
+                        a directory path to save a page(should be exist) (default: CWD)
+```
 
 ### Install:
 ```bash
